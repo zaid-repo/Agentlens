@@ -1,0 +1,199 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>AgentLens - AI Agent Debugger</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800;900&display=swap"
+      rel="stylesheet"
+    />
+    <link rel="stylesheet" href="./styles.css" />
+  </head>
+  <body>
+    <main class="app-shell">
+      <section class="workspace">
+        <aside class="control-panel" aria-label="Agent test controls">
+          <div class="brand-lockup">
+            <div class="brand-mark" aria-hidden="true">
+              <span></span>
+            </div>
+            <div>
+              <p class="eyebrow">Agent observability lab</p>
+              <h1>AgentLens</h1>
+            </div>
+          </div>
+
+          <form id="agent-form" class="task-form">
+            <div class="field-top">
+              <label for="goal">Agent goal</label>
+              <span id="char-count">0 chars</span>
+            </div>
+            <textarea
+              id="goal"
+              name="goal"
+              rows="7"
+              placeholder="Example: Find the cheapest flight from Delhi to Mumbai tomorrow under Rs. 5000."
+            >Find the cheapest flight from Delhi to Mumbai tomorrow under Rs. 5000.</textarea>
+
+            <div class="control-row">
+              <label class="select-label" for="risk-mode">Risk mode</label>
+              <select id="risk-mode" name="risk-mode">
+                <option value="balanced">Balanced audit</option>
+                <option value="strict">Strict red team</option>
+                <option value="builder">Builder friendly</option>
+              </select>
+            </div>
+
+            <div class="scenario-stack" aria-label="Sample scenarios">
+              <button type="button" class="scenario-card active" data-scenario="flight">
+                <span>Flight search</span>
+                <small>Checks assumptions and booking proof.</small>
+              </button>
+              <button type="button" class="scenario-card" data-scenario="invoice">
+                <span>Invoice autopilot</span>
+                <small>Tests approvals and file safety.</small>
+              </button>
+              <button type="button" class="scenario-card" data-scenario="research">
+                <span>Research agent</span>
+                <small>Grades sources and uncertainty.</small>
+              </button>
+              <button type="button" class="scenario-card" data-scenario="support">
+                <span>Support triage</span>
+                <small>Detects escalation and privacy gaps.</small>
+              </button>
+            </div>
+
+            <button class="primary-action" type="submit">
+              <span class="play-dot" aria-hidden="true"></span>
+              Run Agent Test
+            </button>
+          </form>
+
+          <div class="project-note">
+            <span class="note-label">GitHub-ready idea</span>
+            <p>
+              A visual debugger for agent plans, tool calls, hidden assumptions, and deployment risk.
+            </p>
+          </div>
+        </aside>
+
+        <section class="results-panel" aria-label="Agent audit results">
+          <header class="command-bar">
+            <div>
+              <p class="eyebrow">Live audit</p>
+              <h2 id="run-title">Flight search reliability test</h2>
+            </div>
+            <div class="command-actions">
+              <button id="replay-button" class="ghost-action" type="button">Replay</button>
+              <button id="copy-button" class="ghost-action" type="button">Copy summary</button>
+              <div class="status-pill" id="status-pill">Ready</div>
+            </div>
+          </header>
+
+          <section class="score-strip" aria-label="Reliability score summary">
+            <div class="score-meter">
+              <div class="score-ring" id="score-ring" style="--score: 0">
+                <span id="score-value">--</span>
+              </div>
+              <div>
+                <p class="score-label">Reliability score</p>
+                <p class="score-copy" id="score-copy">
+                  Run a test to inspect agent behavior.
+                </p>
+              </div>
+            </div>
+
+            <div class="metric-row">
+              <div class="metric">
+                <span id="risk-count">0</span>
+                <p>Risks</p>
+              </div>
+              <div class="metric">
+                <span id="tool-count">0</span>
+                <p>Tool calls</p>
+              </div>
+              <div class="metric">
+                <span id="pass-count">0</span>
+                <p>Passed</p>
+              </div>
+              <div class="metric">
+                <span id="confidence-count">0%</span>
+                <p>Confidence</p>
+              </div>
+            </div>
+          </section>
+
+          <section class="pipeline" aria-label="Agent run pipeline">
+            <div class="pipeline-step active" data-phase="plan">
+              <span></span>
+              Plan
+            </div>
+            <div class="pipeline-step" data-phase="tools">
+              <span></span>
+              Tools
+            </div>
+            <div class="pipeline-step" data-phase="checks">
+              <span></span>
+              Checks
+            </div>
+            <div class="pipeline-step" data-phase="report">
+              <span></span>
+              Report
+            </div>
+          </section>
+
+          <section class="insight-grid">
+            <div class="panel trace-panel">
+              <div class="panel-heading">
+                <div>
+                  <h3>Trace timeline</h3>
+                  <p>Click a step to inspect the agent's hidden risk.</p>
+                </div>
+                <span id="step-count">0 steps</span>
+              </div>
+              <div class="filter-row" aria-label="Trace filters">
+                <button class="filter-chip active" type="button" data-filter="all">All</button>
+                <button class="filter-chip" type="button" data-filter="warning">Warnings</button>
+                <button class="filter-chip" type="button" data-filter="failure">Failures</button>
+                <button class="filter-chip" type="button" data-filter="tool">Tools</button>
+              </div>
+              <ol class="timeline" id="timeline"></ol>
+            </div>
+
+            <div class="right-stack">
+              <div class="panel inspector-panel">
+                <div class="panel-heading">
+                  <div>
+                    <h3>Step inspector</h3>
+                    <p>Selected trace evidence.</p>
+                  </div>
+                  <span id="inspector-type">Idle</span>
+                </div>
+                <div class="inspector-body" id="inspector-body">
+                  <p>Select a trace step to see evidence, risk, and suggested fix.</p>
+                </div>
+              </div>
+
+              <div class="panel">
+                <div class="panel-heading">
+                  <div>
+                    <h3>Red-team checks</h3>
+                    <p>Safety and reliability gates.</p>
+                  </div>
+                  <span id="check-summary">Waiting</span>
+                </div>
+                <div class="checks-list" id="checks-list"></div>
+              </div>
+            </div>
+          </section>
+        </section>
+      </section>
+    </main>
+
+    <div class="toast" id="toast" role="status" aria-live="polite">Summary copied</div>
+    <script src="./app.js"></script>
+  </body>
+</html>
