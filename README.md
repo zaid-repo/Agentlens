@@ -62,8 +62,3 @@ Create a research brief on AI agents for small business automation with sources 
 - Save runs locally
 - Add real red-team test suites
 
-## LinkedIn Post Hook
-
-I built AgentLens, a debugging and red-team dashboard for AI agents.
-
-Everyone is building agents. Very few people are building tools to understand why they fail.
